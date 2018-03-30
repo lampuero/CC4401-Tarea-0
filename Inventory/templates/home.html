@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario CC4401</title>
+</head>
+<body>
+<h1>Inventario CC4401</h1>
+<form action="{% url 'inventory:new-product' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Nuevo Producto" required/>
+    <input type="submit" value="Agregar" />
+</form>
+<hr/>
+<table>
+{% for product in object_list reversed %}
+    <tr>
+        <form id="product-{{ forloop.counter }}" action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="id" value="{{ product.id }}" hidden>
+        </form>
+        <td>
+            <button type="submit" form="product-{{ forloop.counter }}" formaction="{% url 'inventory:delete' %}">X</button>
+        </td>
+        <td>
+            {{ product.name | title}}
+        </td>
+        <td>
+            <button type="submit" form="product-{{ forloop.counter }}" formaction="{% url 'inventory:sub' %}">-</button>
+        </td>
+        <td>
+            {{ product.stock }}
+        </td>
+        <td>
+            <button type="submit" form="product-{{ forloop.counter }}" formaction="{% url 'inventory:add' %}">+</button>
+        </td>
+    </tr>
+{% empty %}
+    <p>Ningun articulo en inventario</p>
+{% endfor %}
+</table>
+</body>
+</html>
