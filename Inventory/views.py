@@ -20,7 +20,6 @@ def new_product(request):
 
 
 def add(request):
-    print(request.POST['id'])
     product = Product.objects.get(id=request.POST['id'])
     product.add1()
     product.save()
